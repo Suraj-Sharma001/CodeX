@@ -1,7 +1,7 @@
-import { createApp } from "./app.ts";
-import { connectDatabase, disconnectDatabase } from "./config/database.ts";
-import { config, validateConfig } from "./config/env.ts";
-import { logger } from "./utils/logger.ts";
+import { createApp } from "./app";
+import { connectDatabase, disconnectDatabase } from "./config/database";
+import { config, validateConfig } from "./config/env";
+import { logger } from "./utils/logger";
 
 validateConfig();
 
