@@ -13,3 +13,4 @@ logs/
 *.swo
 *~
 .prettierignore
+.next
