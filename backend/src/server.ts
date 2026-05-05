@@ -6,7 +6,7 @@ import { logger } from "./utils/logger";
 validateConfig();
 
 const app = createApp();
-const PORT = process.env.PORT || config.server.port;
+const PORT = Number(process.env.PORT) || config.server.port;
 
 async function startServer() {
   try {
