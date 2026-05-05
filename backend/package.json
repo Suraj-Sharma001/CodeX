@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "CodeTrack AI - Backend API Server",
   "main": "dist/server.js",
-  "type": "module",
   "scripts": {
     "dev": "ts-node-esm src/server.ts",
     "build": "tsc",
