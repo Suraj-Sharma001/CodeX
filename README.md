@@ -89,10 +89,6 @@ Frontend runs on `http://localhost:3000`
 - `GET /api/analytics/topic-wise` - Topic-wise breakdown
 - `GET /api/analytics/daily-activity` - Daily activity log
 
-## Database Schema
-
-See [DATABASE SCHEMA](./PROJECT_ARCHITECTURE.md#database-schema-design) in PROJECT_ARCHITECTURE.md
-
 ## Development
 
 ### Backend Development
@@ -140,10 +136,6 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 - [ ] Performance optimization
 - [ ] Caching with Redis
 
-## File Structure Details
-
-See [FOLDER STRUCTURE](./PROJECT_ARCHITECTURE.md#folder-structure) in PROJECT_ARCHITECTURE.md
-
 ## Testing APIs
 
 Use Postman or Thunder Client to test endpoints:
@@ -152,10 +144,6 @@ Use Postman or Thunder Client to test endpoints:
 2. Copy the returned token
 3. Add `Authorization: Bearer <token>` header to other requests
 4. Test endpoints
-
-## Deployment
-
-See [DEPLOYMENT CHECKLIST](./PROJECT_ARCHITECTURE.md#deployment-checklist) in PROJECT_ARCHITECTURE.md
 
 ## Common Issues
 
