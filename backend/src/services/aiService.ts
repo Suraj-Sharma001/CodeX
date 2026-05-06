@@ -33,11 +33,65 @@ function buildProblemContext(p: IProblem): string {
   return parts.join("\n\n");
 }
 
+// Google Gemini API
+async function geminiChat(system: string, user: string): Promise<string> {
+  const apiKey = process.env.GOOGLE_GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      "Google Gemini is not configured. Set GOOGLE_GEMINI_API_KEY in the server environment."
+    );
+  }
+
+  const fullPrompt = `${system}\n\nUser: ${user}`;
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: fullPrompt,
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.25,
+          maxOutputTokens: 2500,
+        },
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    const errText = await res.text();
+    logger.error(`Google Gemini API error: ${res.status} ${errText}`);
+    throw new Error("AI request failed");
+  }
+
+  const data = (await res.json()) as {
+    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+  };
+
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+  if (!text) {
+    throw new Error("Empty AI response");
+  }
+  return text;
+}
+
+// OpenAI API
 async function openaiChat(system: string, user: string): Promise<string> {
   const key = process.env.OPENAI_API_KEY;
   if (!key) {
     throw new Error(
-      "AI is not configured. Set OPENAI_API_KEY in the server environment."
+      "OpenAI is not configured. Set OPENAI_API_KEY in the server environment."
     );
   }
 
@@ -75,6 +129,16 @@ async function openaiChat(system: string, user: string): Promise<string> {
   return text;
 }
 
+// Route to appropriate AI provider
+async function aiChat(system: string, user: string): Promise<string> {
+  const provider = process.env.AI_PROVIDER || "openai";
+  
+  if (provider === "gemini") {
+    return geminiChat(system, user);
+  }
+  return openaiChat(system, user);
+}
+
 async function loadProblem(userId: string, problemId: string): Promise<IProblem> {
   const problem = await Problem.findOne({
     _id: problemId,
@@ -91,7 +155,7 @@ class AiService {
   async summarizeApproach(userId: string, problemId: string): Promise<string> {
     const p = await loadProblem(userId, problemId);
     const ctx = buildProblemContext(p);
-    return openaiChat(
+    return aiChat(
       "You are an interview coach. Produce a concise bullet summary of the solution approach (brute force vs optimal), key patterns, and complexity. Under 200 words.",
       ctx
     );
@@ -101,7 +165,7 @@ class AiService {
     const p = await loadProblem(userId, problemId);
     const ctx = buildProblemContext(p);
     const lang = language || "typescript";
-    return openaiChat(
+    return aiChat(
       `You output only clean ${lang} code for the optimized solution, with minimal comments. No markdown fences unless needed.`,
       `${ctx}\n\nImplement the optimized solution in ${lang}.`
     );
@@ -110,7 +174,7 @@ class AiService {
   async suggestImprovements(userId: string, problemId: string): Promise<string> {
     const p = await loadProblem(userId, problemId);
     const ctx = buildProblemContext(p);
-    return openaiChat(
+    return aiChat(
       "Critique the documented solution: naming, complexity, edge handling, and readability. Bullet list, actionable, interview-focused.",
       ctx
     );
@@ -119,7 +183,7 @@ class AiService {
   async interviewExplain(userId: string, problemId: string): Promise<string> {
     const p = await loadProblem(userId, problemId);
     const ctx = buildProblemContext(p);
-    return openaiChat(
+    return aiChat(
       "Explain how you would walk through this problem in a live interview: clarify requirements, propose brute force, optimize, discuss tradeoffs. Conversational but structured.",
       ctx
     );
@@ -128,7 +192,7 @@ class AiService {
   async missingEdgeCases(userId: string, problemId: string): Promise<string> {
     const p = await loadProblem(userId, problemId);
     const ctx = buildProblemContext(p);
-    return openaiChat(
+    return aiChat(
       "List likely missing or tricky edge cases for this problem that candidates forget. Short bullets; mention stress scenarios.",
       ctx
     );

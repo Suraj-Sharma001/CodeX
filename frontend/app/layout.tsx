@@ -3,7 +3,7 @@ import '../styles/globals.css';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: 'CodeTrack AI',
+  title: 'CodeX',
   description: 'Your personal coding journey tracker and revision system',
 };
 

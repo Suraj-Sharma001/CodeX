@@ -18,8 +18,11 @@ export const config = {
     refreshSecret: process.env.JWT_REFRESH_SECRET || "your_refresh_secret_key",
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRE || "30d",
   },
-  cors: {
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    cors: {
+    origin: [
+      "http://localhost:3000",
+      "https://code-x-iota-ruddy.vercel.app",
+    ],
     credentials: true,
   },
   email: {

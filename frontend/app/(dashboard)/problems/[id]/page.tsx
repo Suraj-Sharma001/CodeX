@@ -87,13 +87,13 @@ export default function ProblemDetailPage() {
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-12 bg-gradient-to-r from-gray-200 to-gray-100 rounded-lg w-3/4"></div>
+        <div className="h-12 bg-gradient-to-r from-gray-200 dark:from-gray-700 to-gray-100 dark:to-gray-800 rounded-lg w-3/4"></div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-gradient-to-br from-gray-100 to-gray-50 rounded-lg p-4 h-24"></div>
+            <div key={i} className="bg-gradient-to-br from-gray-100 dark:from-gray-700 to-gray-50 dark:to-gray-800 rounded-lg p-4 h-24"></div>
           ))}
         </div>
-        <div className="bg-gradient-to-br from-gray-100 to-gray-50 rounded-lg p-6 h-64"></div>
+        <div className="bg-gradient-to-br from-gray-100 dark:from-gray-700 to-gray-50 dark:to-gray-800 rounded-lg p-6 h-64"></div>
       </div>
     );
   }
@@ -102,7 +102,7 @@ export default function ProblemDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="text-6xl mb-4">❌</div>
-        <p className="text-lg text-gray-600 mb-4">Problem not found</p>
+        <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">Problem not found</p>
         <Link href="/problems">
           <Button variant="primary">Back to Problems</Button>
         </Link>
@@ -111,9 +111,9 @@ export default function ProblemDetailPage() {
   }
 
   const difficultyColors: any = {
-    Easy: 'bg-green-100 text-green-800',
-    Medium: 'bg-yellow-100 text-yellow-800',
-    Hard: 'bg-red-100 text-red-800',
+    Easy: 'bg-green-100 dark:bg-green-900 dark:bg-opacity-40 text-green-800 dark:text-green-300',
+    Medium: 'bg-yellow-100 dark:bg-yellow-900 dark:bg-opacity-40 text-yellow-800 dark:text-yellow-300',
+    Hard: 'bg-red-100 dark:bg-red-900 dark:bg-opacity-40 text-red-800 dark:text-red-300',
   };
 
   return (
@@ -123,10 +123,10 @@ export default function ProblemDetailPage() {
         <div>
           <h1 className="text-3xl font-bold mb-2">{currentProblem.title}</h1>
           <div className="flex gap-2 items-center">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${difficultyColors[currentProblem.difficulty]}`}>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 ${difficultyColors[currentProblem.difficulty]}`}>
               {currentProblem.difficulty}
             </span>
-            <span className="text-gray-600">{currentProblem.platform}</span>
+            <span className="text-gray-600 dark:text-gray-400">{currentProblem.platform}</span>
           </div>
         </div>
         <div className="flex gap-2">
@@ -158,7 +158,7 @@ export default function ProblemDetailPage() {
             href={currentProblem.problemLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline transition-colors duration-200"
           >
             View on {currentProblem.platform} →
           </a>
@@ -170,7 +170,7 @@ export default function ProblemDetailPage() {
         <h2 className="text-lg font-semibold mb-3">Topics</h2>
         <div className="flex flex-wrap gap-2">
           {currentProblem.topics.map(topic => (
-            <span key={topic} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+            <span key={topic} className="bg-blue-100 dark:bg-blue-900 dark:bg-opacity-40 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-sm transition-colors duration-200">
               {topic}
             </span>
           ))}
@@ -179,9 +179,9 @@ export default function ProblemDetailPage() {
 
       {/* Key Intuition */}
       {currentProblem.keyIntuition && (
-        <div className="mb-8 bg-blue-50 rounded-lg p-6">
+        <div className="mb-8 bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 rounded-lg p-6 border border-blue-100 dark:border-blue-800 transition-colors duration-200">
           <h2 className="text-lg font-semibold mb-3">Key Intuition</h2>
-          <p className="text-gray-700 whitespace-pre-wrap">{currentProblem.keyIntuition}</p>
+          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{currentProblem.keyIntuition}</p>
         </div>
       )}
 
@@ -191,10 +191,10 @@ export default function ProblemDetailPage() {
           <h2 className="text-lg font-semibold mb-3">Approaches</h2>
           <div className="space-y-4">
             {currentProblem.approaches.bruteForceSolution && (
-              <div className="border border-gray-300 rounded-lg p-4">
-                <h3 className="font-semibold text-red-600 mb-2">Brute Force</h3>
-                <p className="text-gray-700 mb-2">{currentProblem.approaches.bruteForceSolution.description}</p>
-                <div className="text-sm text-gray-600">
+              <div className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-900 transition-colors duration-200">
+                <h3 className="font-semibold text-red-600 dark:text-red-400 mb-2">Brute Force</h3>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">{currentProblem.approaches.bruteForceSolution.description}</p>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   <p>Time: {currentProblem.approaches.bruteForceSolution.timeComplexity}</p>
                   <p>Space: {currentProblem.approaches.bruteForceSolution.spaceComplexity}</p>
                 </div>
@@ -202,15 +202,15 @@ export default function ProblemDetailPage() {
             )}
             
             {currentProblem.approaches.optimizedSolution && (
-              <div className="border border-gray-300 rounded-lg p-4 bg-green-50">
-                <h3 className="font-semibold text-green-600 mb-2">Optimized Solution</h3>
-                <p className="text-gray-700 mb-2">{currentProblem.approaches.optimizedSolution.description}</p>
+              <div className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 bg-green-50 dark:bg-green-900 dark:bg-opacity-20 transition-colors duration-200">
+                <h3 className="font-semibold text-green-600 dark:text-green-400 mb-2">Optimized Solution</h3>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">{currentProblem.approaches.optimizedSolution.description}</p>
                 {currentProblem.approaches.optimizedSolution.keyInsight && (
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                     <strong>Key Insight:</strong> {currentProblem.approaches.optimizedSolution.keyInsight}
                   </p>
                 )}
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   <p>Time: {currentProblem.approaches.optimizedSolution.timeComplexity}</p>
                   <p>Space: {currentProblem.approaches.optimizedSolution.spaceComplexity}</p>
                 </div>
@@ -226,8 +226,8 @@ export default function ProblemDetailPage() {
           <h2 className="text-lg font-semibold mb-3">Mistakes Made</h2>
           <div className="space-y-2">
             {currentProblem.mistakesMade.map((mistake, idx) => (
-              <div key={idx} className="bg-red-50 rounded-lg p-3">
-                <p className="text-gray-700">• {mistake}</p>
+              <div key={idx} className="bg-red-50 dark:bg-red-900 dark:bg-opacity-20 rounded-lg p-3 border border-red-100 dark:border-red-800 transition-colors duration-200">
+                <p className="text-gray-700 dark:text-gray-300">• {mistake}</p>
               </div>
             ))}
           </div>
@@ -240,8 +240,8 @@ export default function ProblemDetailPage() {
           <h2 className="text-lg font-semibold mb-3">Edge Cases</h2>
           <div className="space-y-2">
             {currentProblem.edgeCases.map((edgeCase, idx) => (
-              <div key={idx} className="bg-purple-50 rounded-lg p-3">
-                <p className="text-gray-700">• {edgeCase}</p>
+              <div key={idx} className="bg-purple-50 dark:bg-purple-900 dark:bg-opacity-20 rounded-lg p-3 border border-purple-100 dark:border-purple-800 transition-colors duration-200">
+                <p className="text-gray-700 dark:text-gray-300">• {edgeCase}</p>
               </div>
             ))}
           </div>
@@ -266,32 +266,32 @@ export default function ProblemDetailPage() {
       )}
 
       {/* Problem Info */}
-      <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 mb-8 border border-gray-100 dark:border-gray-800">
+      <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 mb-8 border border-gray-100 dark:border-gray-800 transition-colors duration-200">
         <h2 className="text-lg font-semibold mb-4">Problem Info</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           <div>
-            <p className="text-sm text-gray-600">Date Solved</p>
-            <p className="font-semibold">{new Date(currentProblem.dateSolved).toLocaleDateString()}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Date Solved</p>
+            <p className="font-semibold dark:text-white">{new Date(currentProblem.dateSolved).toLocaleDateString()}</p>
           </div>
           <div>
-            <p className="text-sm text-gray-600">Status</p>
-            <p className="font-semibold">{currentProblem.status}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Status</p>
+            <p className="font-semibold dark:text-white">{currentProblem.status}</p>
           </div>
           <div>
-            <p className="text-sm text-gray-600">Revisions</p>
-            <p className="font-semibold">{currentProblem.revisionCount}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Revisions</p>
+            <p className="font-semibold dark:text-white">{currentProblem.revisionCount}</p>
           </div>
           {currentProblem.revision?.nextRevisionDate && (
             <div>
-              <p className="text-sm text-gray-600">Next revision</p>
-              <p className="font-semibold">
+              <p className="text-sm text-gray-600 dark:text-gray-400">Next revision</p>
+              <p className="font-semibold dark:text-white">
                 {new Date(currentProblem.revision.nextRevisionDate).toLocaleDateString()}
               </p>
             </div>
           )}
           <div>
-            <p className="text-sm text-gray-600">Can solve again?</p>
-            <p className="font-semibold">
+            <p className="text-sm text-gray-600 dark:text-gray-400">Can solve again?</p>
+            <p className="font-semibold dark:text-white">
               {currentProblem.revision?.canSolveAgain !== false ? 'Yes' : 'No'}
             </p>
           </div>

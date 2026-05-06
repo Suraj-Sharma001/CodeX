@@ -51,31 +51,31 @@ export function ProblemApproachesSection({
         <h2 className="text-xl font-semibold mb-4">Brute force approach</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
             <textarea
               value={approaches.bruteForceSolution.description}
               onChange={(e) => updateBf('description', e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
               rows={4}
               placeholder="Naive idea, nested loops, extra space, etc."
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Time</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time</label>
               <input
                 value={approaches.bruteForceSolution.timeComplexity}
                 onChange={(e) => updateBf('timeComplexity', e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-900"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
                 placeholder="O(n²)"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Space</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Space</label>
               <input
                 value={approaches.bruteForceSolution.spaceComplexity}
                 onChange={(e) => updateBf('spaceComplexity', e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-900"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
                 placeholder="O(1)"
               />
             </div>
@@ -87,38 +87,38 @@ export function ProblemApproachesSection({
         <h2 className="text-xl font-semibold mb-4">Optimized approach</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
             <textarea
               value={approaches.optimizedSolution.description}
               onChange={(e) => updateOpt('description', e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
               rows={4}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Key insight</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Key insight</label>
             <input
               value={approaches.optimizedSolution.keyInsight}
               onChange={(e) => updateOpt('keyInsight', e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-900"
+              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
               placeholder="Why it works"
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Time</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time</label>
               <input
                 value={approaches.optimizedSolution.timeComplexity}
                 onChange={(e) => updateOpt('timeComplexity', e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-900"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Space</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Space</label>
               <input
                 value={approaches.optimizedSolution.spaceComplexity}
                 onChange={(e) => updateOpt('spaceComplexity', e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-900"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
               />
             </div>
           </div>
@@ -156,7 +156,7 @@ export function ProblemApproachesSection({
                   next[idx] = { ...next[idx], code: e.target.value };
                   onSnippetsChange(next);
                 }}
-                className="w-full font-mono text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-gray-950 min-h-[120px]"
+                className="w-full font-mono text-sm border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
                 placeholder="Paste solution..."
               />
             </div>

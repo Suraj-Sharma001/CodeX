@@ -178,7 +178,7 @@ export default function EditProblemPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-lg text-gray-600">Loading...</p>
+        <p className="text-lg text-gray-600 dark:text-gray-400">Loading...</p>
       </div>
     );
   }
@@ -187,10 +187,10 @@ export default function EditProblemPage() {
     <div className="max-w-4xl mx-auto">
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">Edit Problem</h1>
-        <p className="text-gray-600">Update your problem details</p>
+        <p className="text-gray-600 dark:text-gray-400">Update your problem details</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8">
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-800 transition-colors duration-200">
         {/* Basic Information */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
@@ -206,12 +206,12 @@ export default function EditProblemPage() {
             />
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Platform</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Platform</label>
               <select
                 name="platform"
                 value={formData.platform}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
               >
                 {PLATFORMS.map(p => (
                   <option key={p} value={p}>{p}</option>
@@ -220,12 +220,12 @@ export default function EditProblemPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Difficulty</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Difficulty</label>
               <select
                 name="difficulty"
                 value={formData.difficulty}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
               >
                 {DIFFICULTIES.map(d => (
                   <option key={d} value={d}>{d}</option>
@@ -255,7 +255,7 @@ export default function EditProblemPage() {
                   onChange={() => toggleTopic(topic)}
                   className="mr-2 w-4 h-4 accent-blue-500"
                 />
-                <span className="text-sm text-gray-700">{topic}</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{topic}</span>
               </label>
             ))}
           </div>
@@ -284,25 +284,25 @@ export default function EditProblemPage() {
             />
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Key Intuition</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Key Intuition</label>
               <textarea
                 name="keyIntuition"
                 placeholder="What was the key insight for this problem?"
                 value={formData.keyIntuition}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
                 rows={3}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Notes</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
               <textarea
                 name="notes"
                 placeholder="Any additional notes about the problem..."
                 value={formData.notes}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
                 rows={3}
               />
             </div>
@@ -330,7 +330,7 @@ export default function EditProblemPage() {
               onChange={(e) => setMistakeInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && addMistake()}
               placeholder="Enter a mistake you made..."
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
             />
             <Button variant="secondary" onClick={addMistake} type="button">
               Add
@@ -338,12 +338,12 @@ export default function EditProblemPage() {
           </div>
           <div className="space-y-2">
             {formData.mistakesMade.map((mistake, idx) => (
-              <div key={idx} className="flex justify-between items-center bg-red-50 p-3 rounded-lg">
-                <span className="text-sm text-gray-700">{mistake}</span>
+              <div key={idx} className="flex justify-between items-center bg-red-50 dark:bg-red-950 dark:bg-opacity-30 p-3 rounded-lg border border-red-100 dark:border-red-900 transition-colors duration-200">
+                <span className="text-sm text-gray-700 dark:text-gray-300">{mistake}</span>
                 <button
                   onClick={() => removeMistake(idx)}
                   type="button"
-                  className="text-red-600 hover:text-red-800 font-semibold"
+                  className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-semibold transition-colors duration-200"
                 >
                   Remove
                 </button>
@@ -362,7 +362,7 @@ export default function EditProblemPage() {
               onChange={(e) => setEdgeCaseInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && addEdgeCase()}
               placeholder="Enter an edge case..."
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
             />
             <Button variant="secondary" onClick={addEdgeCase} type="button">
               Add
@@ -370,12 +370,12 @@ export default function EditProblemPage() {
           </div>
           <div className="space-y-2">
             {formData.edgeCases.map((edgeCase, idx) => (
-              <div key={idx} className="flex justify-between items-center bg-purple-50 p-3 rounded-lg">
-                <span className="text-sm text-gray-700">{edgeCase}</span>
+              <div key={idx} className="flex justify-between items-center bg-purple-50 dark:bg-purple-950 dark:bg-opacity-30 p-3 rounded-lg border border-purple-100 dark:border-purple-900 transition-colors duration-200">
+                <span className="text-sm text-gray-700 dark:text-gray-300">{edgeCase}</span>
                 <button
                   onClick={() => removeEdgeCase(idx)}
                   type="button"
-                  className="text-red-600 hover:text-red-800 font-semibold"
+                  className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-semibold transition-colors duration-200"
                 >
                   Remove
                 </button>

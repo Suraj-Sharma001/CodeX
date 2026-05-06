@@ -19,12 +19,7 @@ export function createApp(): Express {
   // Middleware
   app.use(helmet());
   app.use(cookieParser());
-  app.use(
-    cors({
-      origin: config.cors.origin,
-      credentials: config.cors.credentials,
-    })
-  );
+  app.use(cors(config.cors));
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
