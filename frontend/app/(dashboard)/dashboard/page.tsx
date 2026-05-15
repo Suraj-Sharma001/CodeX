@@ -82,6 +82,10 @@ export default function DashboardPage() {
     );
   }
 
+  if (!stats) {
+  return null;
+}
+
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Header */}
