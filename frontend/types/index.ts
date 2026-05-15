@@ -26,8 +26,8 @@ export interface User {
   firstName: string;
   lastName: string;
   avatar?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
   preferences?: {
     darkMode: boolean;
     emailNotifications: boolean;
@@ -51,7 +51,7 @@ export interface Problem {
   difficulty: 'Easy' | 'Medium' | 'Hard';
   topics: string[];
   problemLink?: string;
-  dateSolved: string;
+  dateSolved: string | Date;
   timeTaken: number;
   revisionCount: number;
   isFavorited: boolean;
@@ -73,7 +73,7 @@ export interface Problem {
     language: string;
     code: string;
     version: number;
-    createdAt: string;
+    createdAt: string | Date;
   }>;
   keyIntuition?: string;
   mistakesMade?: string[];
@@ -82,18 +82,18 @@ export interface Problem {
   tags?: string[];
   revision?: {
     markedForRevision: boolean;
-    nextRevisionDate?: string;
+    nextRevisionDate?: string | Date;
     revisionCount: number;
-    revisedAt: string[];
+    revisedAt: (string | Date)[];
     canSolveAgain: boolean;
     confidenceLevel: number;
     easeFactor?: number;
     intervalDays?: number;
     sm2Repetitions?: number;
   };
-  createdAt: string;
-  updatedAt: string;
-  lastReviewedAt?: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  lastReviewedAt?: string | Date;
 }
 
 export interface CreateProblemRequest {

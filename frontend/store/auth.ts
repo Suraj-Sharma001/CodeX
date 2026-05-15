@@ -47,17 +47,12 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const response = await authService.login({ email, password });
       set({
         user: response.user,
-        token: response.token ?? null,
+        token: null, // Token stored in httpOnly cookie by server
         isAuthenticated: true,
         isLoading: false,
         isHydrating: false,
         lastHydrationTime: Date.now(),
       });
-      if (response.token) {
-        localStorage.setItem('token', response.token);
-      } else {
-        localStorage.removeItem('token');
-      }
       localStorage.setItem('user', JSON.stringify(response.user));
     } catch (error: any) {
       const message = error?.response?.data?.message || 'Login failed';
@@ -72,17 +67,12 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const response = await authService.register(data);
       set({
         user: response.user,
-        token: response.token ?? null,
+        token: null, // Token stored in httpOnly cookie by server
         isAuthenticated: true,
         isLoading: false,
         isHydrating: false,
         lastHydrationTime: Date.now(),
       });
-      if (response.token) {
-        localStorage.setItem('token', response.token);
-      } else {
-        localStorage.removeItem('token');
-      }
       localStorage.setItem('user', JSON.stringify(response.user));
     } catch (error: any) {
       const message = error?.response?.data?.message || 'Registration failed';
@@ -103,7 +93,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       isAuthenticated: false,
       lastHydrationTime: 0,
     });
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
   },
 
@@ -127,13 +116,13 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const user = await authService.getMe();
       set({
         user,
-        token: localStorage.getItem('token'),
+        token: null, // Token is in httpOnly cookie
         isAuthenticated: true,
         isHydrating: false,
         lastHydrationTime: Date.now(),
       });
       localStorage.setItem('user', JSON.stringify(user));
-    } catch {
+    } catch (error) {
       set({
         user: null,
         token: null,

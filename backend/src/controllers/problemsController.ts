@@ -43,14 +43,21 @@ export class ProblemsController {
       }
 
       const query: ProblemsQuery = {
-        page: parseInt(req.query.page as string) || 1,
-        limit: parseInt(req.query.limit as string) || 20,
+        page: Math.max(1, parseInt(req.query.page as string) || 1),
+        limit: Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20)),
         difficulty: req.query.difficulty as string,
         platform: req.query.platform as string,
         topic: req.query.topic as string,
         status: req.query.status as string,
-        isFavorited: req.query.isFavorited === "true",
-        markedForRevision: req.query.markedForRevision === "true",
+        isFavorited:
+          req.query.isFavorited !== undefined
+            ? req.query.isFavorited === "true"
+            : undefined,
+
+        markedForRevision:
+          req.query.markedForRevision !== undefined
+            ? req.query.markedForRevision === "true"
+            : undefined,
         search: req.query.search as string,
         sortBy: (req.query.sortBy as "createdAt" | "dateSolved" | "revisionCount") || "createdAt",
         order: (req.query.order as "asc" | "desc") || "desc",
@@ -185,7 +192,7 @@ export class ProblemsController {
 
       const daysUntilNext = (problem as any).revision?.nextRevisionDate
         ? Math.ceil(
-            (new Date((problem as any).revision.nextRevisionDate).getTime() - new Date().getTime()) /
+            (new Date((problem as any).revision.nextRevisionDate).getTime() - Date.now()) /
               (1000 * 60 * 60 * 24)
           )
         : 0;

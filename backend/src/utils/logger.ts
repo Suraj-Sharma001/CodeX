@@ -21,9 +21,11 @@ winston.addColors(colors);
 
 const format = winston.format.combine(
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
-  winston.format.printf(
-    (info) => `${info.timestamp} ${info.level}: ${info.message}`
-  )
+  winston.format.printf((info) => {
+    const context = info.context ? ` [${info.context}]` : "";
+    const requestId = info.requestId ? ` [${info.requestId}]` : "";
+    return `${info.timestamp} ${info.level}${requestId}${context}: ${info.message}`;
+  })
 );
 
 const transports = [
@@ -43,3 +45,8 @@ export const logger = winston.createLogger({
   format,
   transports,
 });
+
+// Helper to generate request ID
+export function generateRequestId(): string {
+  return Math.random().toString(36).substring(2, 11);
+}

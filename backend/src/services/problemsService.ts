@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Problem, IProblem } from "../models/Problem.js";
 import { User } from "../models/User.js";
 import { logger } from "../utils/logger.js";
@@ -40,8 +41,16 @@ class ProblemsService {
       const limit = query.limit || 20;
       const skip = (page - 1) * limit;
 
+      // Convert userId to ObjectId for proper MongoDB queries
+      const userObjectId = new mongoose.Types.ObjectId(userId);
+
+      // DEBUG: Log the userId and filter
+      logger.info(`DEBUG getProblems - userId: ${userId}, userObjectId: ${userObjectId.toString()}`);
+
       // Build filter
-      let filter: any = { userId };
+      let filter: any = { userId: userObjectId };
+      
+      logger.info(`DEBUG Filter before applied: ${JSON.stringify(filter)}`);
 
       if (query.difficulty) {
         filter.difficulty = query.difficulty;
@@ -85,6 +94,18 @@ class ProblemsService {
 
       // Get total count
       const total = await Problem.countDocuments(filter);
+      
+      // DEBUG: Log results
+      logger.info(`DEBUG getProblems - Found ${problems.length} problems, Total: ${total}`);
+      if (problems.length === 0 && total > 0) {
+        logger.warn(`ISSUE DETECTED: Count shows ${total} problems but find() returned 0. Filter: ${JSON.stringify(filter)}`);
+        // Let's check all problems for this user with different query approach
+        const allProblemsForUser = await Problem.find({ userId: userObjectId }).lean();
+        logger.warn(`Alternative query returned ${allProblemsForUser.length} problems`);
+        if (allProblemsForUser.length > 0) {
+          logger.warn(`First problem userId type: ${typeof allProblemsForUser[0].userId}, value: ${allProblemsForUser[0].userId}`);
+        }
+      }
 
       return {
         data: problems as any,
@@ -102,9 +123,10 @@ class ProblemsService {
 
   async getProblemById(userId: string, problemId: string): Promise<IProblem> {
     try {
+      const userObjectId = new mongoose.Types.ObjectId(userId);
       const problem = await Problem.findOne({
         _id: problemId,
-        userId,
+        userId: userObjectId,
       });
 
       if (!problem) {
@@ -124,8 +146,9 @@ class ProblemsService {
     data: Partial<ProblemRequest>
   ): Promise<IProblem> {
     try {
+      const userObjectId = new mongoose.Types.ObjectId(userId);
       const problem = await Problem.findOneAndUpdate(
-        { _id: problemId, userId },
+        { _id: problemId, userId: userObjectId },
         { $set: data },
         { new: true, runValidators: true }
       );
@@ -144,9 +167,10 @@ class ProblemsService {
 
   async deleteProblem(userId: string, problemId: string): Promise<void> {
     try {
+      const userObjectId = new mongoose.Types.ObjectId(userId);
       const problem = await Problem.findOneAndDelete({
         _id: problemId,
-        userId,
+        userId: userObjectId,
       });
 
       if (!problem) {
@@ -154,8 +178,7 @@ class ProblemsService {
       }
 
       // Update user stats
-
-      const totalProblems = await Problem.countDocuments({ userId });
+      const totalProblems = await Problem.countDocuments({ userId: userObjectId });
 
       await User.findByIdAndUpdate(userId, {
         $set: { "stats.totalProblems": totalProblems },
@@ -170,9 +193,10 @@ class ProblemsService {
 
   async toggleFavorite(userId: string, problemId: string): Promise<IProblem> {
     try {
+      const userObjectId = new mongoose.Types.ObjectId(userId);
       const problem = await Problem.findOne({
         _id: problemId,
-        userId,
+        userId: userObjectId,
       });
 
       if (!problem) {
@@ -185,7 +209,11 @@ class ProblemsService {
         { new: true }
       );
 
-      return updated!;
+      if (!updated) {
+        throw new Error("Failed to update problem");
+      }
+
+      return updated;
     } catch (error) {
       logger.error(`Failed to toggle favorite: ${error}`);
       throw error;
@@ -198,9 +226,15 @@ class ProblemsService {
     confidenceLevel: number
   ): Promise<IProblem> {
     try {
+      // Validate confidence level early
+      if (confidenceLevel < 1 || confidenceLevel > 5) {
+        throw new Error("Confidence level must be between 1 and 5");
+      }
+
+      const userObjectId = new mongoose.Types.ObjectId(userId);
       const problem = await Problem.findOne({
         _id: problemId,
-        userId,
+        userId: userObjectId,
       });
 
       if (!problem) {
@@ -237,7 +271,11 @@ class ProblemsService {
         { new: true }
       );
 
-      return updated!;
+      if (!updated) {
+        throw new Error("Failed to update problem for revision");
+      }
+
+      return updated;
     } catch (error) {
       logger.error(`Failed to mark for revision: ${error}`);
       throw error;
@@ -247,7 +285,7 @@ class ProblemsService {
   async getTopicDistribution(userId: string): Promise<Record<string, number>> {
     try {
       const result = await Problem.aggregate([
-        { $match: { userId: require("mongoose").Types.ObjectId(userId) } },
+        { $match: { userId: new mongoose.Types.ObjectId(userId) } },
         { $unwind: "$topics" },
         {
           $group: {
@@ -273,7 +311,7 @@ class ProblemsService {
   async getDifficultyBreakdown(userId: string): Promise<Record<string, number>> {
     try {
       const result = await Problem.aggregate([
-        { $match: { userId: require("mongoose").Types.ObjectId(userId) } },
+        { $match: { userId: new mongoose.Types.ObjectId(userId) } },
         {
           $group: {
             _id: "$difficulty",

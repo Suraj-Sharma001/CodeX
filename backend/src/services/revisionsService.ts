@@ -14,8 +14,9 @@ class RevisionsService {
     userId: string,
     limit: number = 50
   ): Promise<IProblem[]> {
+    const userObjectId = new mongoose.Types.ObjectId(userId);
     const problems = await Problem.find({
-      userId,
+      userId: userObjectId,
       "revision.markedForRevision": true,
       "revision.nextRevisionDate": { $lte: new Date() },
     })
@@ -60,7 +61,7 @@ class RevisionsService {
     nextRevisionDate.setDate(nextRevisionDate.getDate() + next.intervalDays);
 
     const updated = await Problem.findOneAndUpdate(
-      { _id: problemId, userId },
+      { _id: problemId, userId: new mongoose.Types.ObjectId(userId) },
       {
         $set: {
           lastReviewedAt: new Date(),

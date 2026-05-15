@@ -11,7 +11,7 @@ function authCookieOptions(maxAge: number): CookieOptions {
   return {
     httpOnly: true,
     secure: config.server.nodeEnv === "production",
-    sameSite: "lax",
+    sameSite: config.server.nodeEnv === "production" ? "none" : "lax",
     path: "/",
     maxAge,
   };
@@ -90,8 +90,11 @@ export class AuthController {
 
       res.status(200).json({
         success: true,
-        user: result.user,
-        data: result,
+        data: {
+          user: result.user,
+          token: result.token,
+          refreshToken: result.refreshToken,
+        },
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Login failed";

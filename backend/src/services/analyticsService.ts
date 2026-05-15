@@ -15,6 +15,9 @@ class AnalyticsService {
 
       const objectId = new mongoose.Types.ObjectId(userId);
 
+      // Get total problems count from database (real-time, not cached)
+      const totalProblems = await Problem.countDocuments({ userId: objectId });
+
       // Get difficulty breakdown
       const difficultyResult = await Problem.aggregate([
         { $match: { userId: objectId } },
@@ -82,9 +85,16 @@ class AnalyticsService {
         "revision.nextRevisionDate": { $lte: new Date() },
       });
 
+      // Get total revisions count (real-time from revision history)
+      const totalRevisionsResult = await Problem.aggregate([
+        { $match: { userId: objectId } },
+        { $group: { _id: null, totalRevisions: { $sum: "$revision.revisionCount" } } },
+      ]);
+      const totalRevisions = totalRevisionsResult[0]?.totalRevisions || 0;
+
       return {
-        totalProblems: user.stats.totalProblems,
-        totalRevisions: user.stats.totalRevisions,
+        totalProblems,
+        totalRevisions,
         currentStreak: user.stats.currentStreak,
         longestStreak: user.stats.longestStreak,
         weakAreas,

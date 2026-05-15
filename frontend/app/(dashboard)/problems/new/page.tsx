@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { toDateString } from '@/utils/dates';
 import { useProblemsStore } from '@/store/problems';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -25,7 +26,7 @@ export default function AddProblemPage() {
     difficulty: 'Medium',
     topics: [] as string[],
     problemLink: '',
-    dateSolved: new Date().toISOString().split('T')[0],
+    dateSolved: toDateString(new Date()),
     timeTaken: 0,
     keyIntuition: '',
     notes: '',
