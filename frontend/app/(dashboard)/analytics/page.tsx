@@ -29,12 +29,12 @@ export default function AnalyticsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded-lg w-1/3 animate-pulse"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="h-8 sm:h-10 bg-gray-200 dark:bg-gray-800 rounded-lg w-1/3 animate-pulse"></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="h-32 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"
+              className="h-28 sm:h-32 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"
             ></div>
           ))}
         </div>
@@ -44,7 +44,7 @@ export default function AnalyticsPage() {
 
   if (!stats) {
     return (
-      <div className="text-center py-10 text-gray-600 dark:text-gray-400">
+      <div className="text-center py-8 sm:py-10 text-sm sm:text-base text-gray-600 dark:text-gray-400">
         Failed to load analytics
       </div>
     );
@@ -54,51 +54,51 @@ export default function AnalyticsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
           Analytics
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
           Track your coding progress and improvements
         </p>
       </div>
 
       {/* Overview Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard
           title="Total Problems"
           value={stats.totalProblems}
-          icon={<BookOpen className="w-6 h-6" />}
+          icon={<BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="blue"
         />
         <StatCard
           title="Total Revisions"
           value={stats.totalRevisions}
-          icon={<RotateCcw className="w-6 h-6" />}
+          icon={<RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="purple"
         />
         <StatCard
           title="Current Streak"
           value={stats.currentStreak}
-          icon={<Zap className="w-6 h-6" />}
+          icon={<Zap className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="amber"
         />
         <StatCard
           title="Longest Streak"
           value={stats.longestStreak}
-          icon={<Crown className="w-6 h-6" />}
+          icon={<Crown className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="emerald"
         />
       </div>
 
       {/* Difficulty Breakdown */}
       <Card>
-        <div className="p-6 border-b border-gray-200 dark:border-gray-800">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+        <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-800">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
             Difficulty Breakdown
           </h2>
         </div>
-        <div className="p-6">
-          <div className="grid grid-cols-3 gap-4">
+        <div className="p-4 sm:p-6">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <DifficultyBreakdown
               difficulty="Easy"
               count={stats.difficultyBreakdown.Easy}
@@ -121,13 +121,13 @@ export default function AnalyticsPage() {
       {/* Topics Distribution */}
       {Object.keys(stats.topicDistribution).length > 0 && (
         <Card>
-          <div className="p-6 border-b border-gray-200 dark:border-gray-800">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-800">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
               Topic Distribution
             </h2>
           </div>
-          <div className="p-6">
-            <div className="space-y-4">
+          <div className="p-4 sm:p-6">
+            <div className="space-y-3 sm:space-y-4">
               {Object.entries(stats.topicDistribution)
                 .sort(([, a], [, b]) => (b as number) - (a as number))
                 .map(([topic, count]) => {
@@ -138,8 +138,8 @@ export default function AnalyticsPage() {
 
                   return (
                     <div key={topic} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-900 dark:text-white">
+                      <div className="flex justify-between items-center gap-2">
+                        <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate">
                           {topic}
                         </span>
                         <Badge variant="info" size="sm">
@@ -162,20 +162,20 @@ export default function AnalyticsPage() {
         </Card>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Weak Areas */}
         {stats.weakAreas.length > 0 && (
           <Card>
-            <div className="p-6 border-b border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/20">
+            <div className="p-4 sm:p-6 border-b border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/20">
               <div className="flex items-center gap-2 mb-4">
-                <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-                <h2 className="text-lg font-semibold text-orange-900 dark:text-orange-100">
+                <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400 flex-shrink-0" />
+                <h2 className="text-base sm:text-lg font-semibold text-orange-900 dark:text-orange-100">
                   Areas to Improve
                 </h2>
               </div>
             </div>
-            <div className="p-6">
-              <div className="space-y-2">
+            <div className="p-4 sm:p-6">
+              <div className="flex flex-wrap gap-2">
                 {stats.weakAreas.map((area) => (
                   <Badge key={area} variant="warning">
                     {area}
@@ -188,15 +188,15 @@ export default function AnalyticsPage() {
 
         {/* Pending Revisions */}
         <Card>
-          <div className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Due for Revision
             </h3>
-            <div className="flex items-baseline gap-3">
-              <div className="text-4xl font-bold text-purple-600 dark:text-purple-400">
+            <div className="flex items-baseline gap-2 sm:gap-3">
+              <div className="text-3xl sm:text-4xl font-bold text-purple-600 dark:text-purple-400">
                 {stats.revisionsPending}
               </div>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 problems need revision
               </p>
             </div>

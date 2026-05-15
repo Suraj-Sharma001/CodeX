@@ -26,7 +26,7 @@ export function Badge({ children, variant = 'default', size = 'md' }: BadgeProps
   return (
     <span
       className={clsx(
-        'font-medium rounded-md inline-block',
+        'font-medium rounded-md inline-block break-words max-w-full',
         variants[variant],
         sizes[size]
       )}

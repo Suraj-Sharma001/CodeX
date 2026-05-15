@@ -63,27 +63,27 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col">
       {/* Header */}
-      <div className="border-b border-gray-200 dark:border-gray-800 px-6 py-4">
-        <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors">
+      <div className="border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 py-3 sm:py-4">
+        <Link href="/" className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors">
           CodeX
         </Link>
       </div>
 
       {/* Content */}
-      <div className="flex-1 flex items-center justify-center p-4">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
         <Card className="w-full max-w-md">
-          <div className="p-8">
-            <div className="mb-8">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <div className="p-6 sm:p-8">
+            <div className="mb-6 sm:mb-8">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 Create your account
               </h1>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                 Start mastering coding problems today
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
                 <Input
                   type="text"
                   name="firstName"
@@ -149,8 +149,8 @@ export default function RegisterPage() {
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-gray-600 dark:text-gray-400">
+            <div className="mt-4 sm:mt-6 text-center">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                 Already have an account?{' '}
                 <Link href="/login" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
                   Sign in

@@ -65,14 +65,14 @@ export default function RevisionsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Revisions due</h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Revisions due</h1>
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
           Spaced repetition queue — complete a review to schedule the next interval (SM-2).
         </p>
       </div>
 
       {stats && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
           {[
             ['Due now', stats.dueNow],
             ['Overdue', stats.overdue],
@@ -81,30 +81,30 @@ export default function RevisionsPage() {
           ].map(([label, val]) => (
             <div
               key={label}
-              className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/50 p-4"
+              className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/50 p-3 sm:p-4"
             >
-              <p className="text-sm text-gray-600 dark:text-gray-400">{label}</p>
-              <p className="text-2xl font-bold">{val}</p>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{label}</p>
+              <p className="text-xl sm:text-2xl font-bold">{val}</p>
             </div>
           ))}
         </div>
       )}
 
       {isLoading ? (
-        <div className="text-center py-10">
-          <p className="text-gray-600">Loading...</p>
+        <div className="text-center py-8 sm:py-10">
+          <p className="text-sm sm:text-base text-gray-600">Loading...</p>
         </div>
       ) : pending.length === 0 ? (
         <div className="bg-white dark:bg-gray-900/50 rounded-lg shadow border border-gray-100 dark:border-gray-800 p-6 text-center">
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
             Nothing due right now. Mark problems from their detail page or relax — you are caught up.
           </p>
-          <Link href="/problems">
+          <Link href="/problems" className="inline-block">
             <Button variant="primary">All problems</Button>
           </Link>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {pending.map((problem) => {
             const due = problem.revision?.nextRevisionDate
               ? new Date(problem.revision.nextRevisionDate)
@@ -115,16 +115,16 @@ export default function RevisionsPage() {
             return (
               <div
                 key={problem._id}
-                className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/40 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+                className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/40 p-4 sm:p-6 flex flex-col gap-4"
               >
                 <div className="flex-1">
                   <Link
                     href={`/problems/${problem._id}`}
-                    className="text-lg font-semibold hover:text-blue-600 dark:hover:text-blue-400"
+                    className="text-base sm:text-lg font-semibold hover:text-blue-600 dark:hover:text-blue-400 break-words"
                   >
                     {problem.title}
                   </Link>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {problem.platform}
                     {due && (
                       <>
@@ -136,7 +136,7 @@ export default function RevisionsPage() {
                       </>
                     )}
                   </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
+                  <div className="flex flex-wrap gap-1 sm:gap-2 mt-2">
                     {problem.topics.slice(0, 5).map((topic) => (
                       <span
                         key={topic}
@@ -147,13 +147,13 @@ export default function RevisionsPage() {
                     ))}
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${difficultyColors[problem.difficulty]}`}
+                    className={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium text-center ${difficultyColors[problem.difficulty]}`}
                   >
                     {problem.difficulty}
                   </span>
-                  <Button variant="primary" onClick={() => setCompleteFor(problem)}>
+                  <Button variant="primary" onClick={() => setCompleteFor(problem)} className="w-full sm:w-auto">
                     Complete review
                   </Button>
                 </div>
@@ -165,13 +165,13 @@ export default function RevisionsPage() {
 
       {completeFor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-md w-full p-6 border border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold mb-2">Complete review</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-md w-full p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+            <h3 className="text-lg sm:text-xl font-semibold mb-2">Complete review</h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4">
               {completeFor.title} — how well did you recall the approach?
             </p>
             <div className="mb-4">
-              <label className="text-sm font-medium block mb-2">
+              <label className="text-xs sm:text-sm font-medium block mb-2">
                 Performance (1–5)
               </label>
               <input
@@ -182,9 +182,9 @@ export default function RevisionsPage() {
                 onChange={(e) => setRating(Number(e.target.value))}
                 className="w-full accent-blue-600"
               />
-              <p className="text-center font-semibold">{rating}</p>
+              <p className="text-center font-semibold text-sm">{rating}</p>
             </div>
-            <label className="flex items-center gap-2 mb-6 text-sm">
+            <label className="flex items-center gap-2 mb-6 text-xs sm:text-sm">
               <input
                 type="checkbox"
                 checked={canSolve}
@@ -193,7 +193,7 @@ export default function RevisionsPage() {
               />
               Can I solve this again cold?
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Button
                 variant="primary"
                 className="flex-1"
@@ -202,7 +202,7 @@ export default function RevisionsPage() {
               >
                 Save & schedule next
               </Button>
-              <Button variant="ghost" onClick={() => setCompleteFor(null)}>
+              <Button variant="ghost" onClick={() => setCompleteFor(null)} className="flex-1 sm:flex-none">
                 Cancel
               </Button>
             </div>
