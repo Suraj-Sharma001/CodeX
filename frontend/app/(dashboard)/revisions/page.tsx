@@ -7,6 +7,32 @@ import { Button } from '@/components/ui/Button';
 import { revisionsService } from '@/services/revisions';
 import toast from 'react-hot-toast';
 
+function formatDate(value?: string | Date) {
+  if (!value) return 'Not scheduled';
+  return new Date(value).toLocaleDateString();
+}
+
+function getRevisionTimeline(problem: Problem) {
+  const nextRevision = problem.revision?.nextRevisionDate
+    ? new Date(problem.revision.nextRevisionDate)
+    : null;
+
+  return [
+    {
+      label: 'Scheduled',
+      value: nextRevision ? nextRevision.toLocaleDateString() : 'Not scheduled',
+    },
+    {
+      label: 'Review count',
+      value: String(problem.revision?.revisionCount ?? 0),
+    },
+    {
+      label: 'Last reviewed',
+      value: formatDate(problem.lastReviewedAt),
+    },
+  ];
+}
+
 export default function RevisionsPage() {
   const [pending, setPending] = useState<Problem[]>([]);
   const [stats, setStats] = useState<Awaited<
@@ -65,9 +91,9 @@ export default function RevisionsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Revisions due</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Revision queue</h1>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-          Spaced repetition queue — complete a review to schedule the next interval (SM-2).
+          Marked problems stay in the queue until they are reviewed. Each card includes the revision timeline.
         </p>
       </div>
 
@@ -97,7 +123,7 @@ export default function RevisionsPage() {
       ) : pending.length === 0 ? (
         <div className="bg-white dark:bg-gray-900/50 rounded-lg shadow border border-gray-100 dark:border-gray-800 p-6 text-center">
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
-            Nothing due right now. Mark problems from their detail page or relax — you are caught up.
+            No marked revision items yet. Open a problem and use Mark for revision to add it here.
           </p>
           <Link href="/problems" className="inline-block">
             <Button variant="primary">All problems</Button>
@@ -135,6 +161,14 @@ export default function RevisionsPage() {
                         </span>
                       </>
                     )}
+                    {!due && problem.revision?.nextRevisionDate && (
+                      <>
+                        {' · '}
+                        <span className="text-emerald-600 font-medium">
+                          Scheduled {new Date(problem.revision.nextRevisionDate).toLocaleDateString()}
+                        </span>
+                      </>
+                    )}
                   </p>
                   <div className="flex flex-wrap gap-1 sm:gap-2 mt-2">
                     {problem.topics.slice(0, 5).map((topic) => (
@@ -153,9 +187,37 @@ export default function RevisionsPage() {
                   >
                     {problem.difficulty}
                   </span>
-                  <Button variant="primary" onClick={() => setCompleteFor(problem)} className="w-full sm:w-auto">
+                  <Button
+                    variant="primary"
+                    onClick={() => setCompleteFor(problem)}
+                    className="w-full sm:w-auto"
+                    disabled={!problem.revision?.nextRevisionDate || Date.now() < new Date(problem.revision.nextRevisionDate).getTime()}
+                  >
                     Complete review
                   </Button>
+                </div>
+
+                <div className="rounded-lg border border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950/30 p-3 sm:p-4">
+                  <div className="flex items-center justify-between gap-3 mb-3">
+                    <p className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      Timeline
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {problem.revision?.markedForRevision ? 'Tracked in revision queue' : 'Not tracked'}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {getRevisionTimeline(problem).map((item) => (
+                      <div key={item.label} className="rounded-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-3">
+                        <p className="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                          {item.label}
+                        </p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mt-1 break-words">
+                          {item.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             );

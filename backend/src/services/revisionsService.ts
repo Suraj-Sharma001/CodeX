@@ -18,7 +18,6 @@ class RevisionsService {
     const problems = await Problem.find({
       userId: userObjectId,
       "revision.markedForRevision": true,
-      "revision.nextRevisionDate": { $lte: new Date() },
     })
       .sort({ "revision.nextRevisionDate": 1 })
       .limit(limit);

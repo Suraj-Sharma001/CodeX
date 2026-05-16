@@ -8,7 +8,7 @@ import { DashboardStats } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { BookOpen, RotateCcw, Zap, Crown, AlertCircle } from 'lucide-react';
+import { BookOpen, RotateCcw, AlertCircle } from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -114,15 +114,15 @@ export default function DashboardPage() {
           color="purple"
         />
         <StatCard
-          title="Current Streak"
-          value={stats.currentStreak}
-          icon={<Zap className="w-5 h-5 sm:w-6 sm:h-6" />}
+          title="Due for Revision"
+          value={stats.revisionsPending}
+          icon={<RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="amber"
         />
         <StatCard
-          title="Longest Streak"
-          value={stats.longestStreak}
-          icon={<Crown className="w-5 h-5 sm:w-6 sm:h-6" />}
+          title="Weak Areas"
+          value={stats.weakAreas.length}
+          icon={<AlertCircle className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="emerald"
         />
       </div>

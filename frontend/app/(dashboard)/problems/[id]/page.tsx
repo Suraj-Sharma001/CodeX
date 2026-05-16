@@ -70,6 +70,7 @@ export default function ProblemDetailPage() {
       await markForRevision(id, confidence);
       toast.success('Scheduled for revision');
       await getProblemById(id);
+      router.push('/revisions');
     } catch (error: any) {
       toast.error(error?.response?.data?.message || 'Could not update revision');
     }
@@ -320,6 +321,44 @@ export default function ProblemDetailPage() {
           <Button variant="secondary" type="button" onClick={handleMarkRevision} size="sm">
             Mark for revision
           </Button>
+        </div>
+
+        <div className="rounded-lg border border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950/30 p-3 sm:p-4">
+          <p className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Timeline</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div className="rounded-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-3">
+              <p className="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">Next review</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mt-1 break-words">
+                {currentProblem.revision?.nextRevisionDate
+                  ? new Date(currentProblem.revision.nextRevisionDate).toLocaleDateString()
+                  : 'Not scheduled'}
+              </p>
+            </div>
+            <div className="rounded-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-3">
+              <p className="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">Review count</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mt-1 break-words">
+                {currentProblem.revisionCount}
+              </p>
+            </div>
+            <div className="rounded-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-3">
+              <p className="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">Last reviewed</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mt-1 break-words">
+                {currentProblem.lastReviewedAt ? new Date(currentProblem.lastReviewedAt).toLocaleDateString() : 'Not reviewed yet'}
+              </p>
+            </div>
+          </div>
+          {currentProblem.revision?.revisedAt && currentProblem.revision.revisedAt.length > 0 && (
+            <div className="mt-3 space-y-2">
+              <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Revision history</p>
+              <div className="space-y-2">
+                {currentProblem.revision.revisedAt.map((entry, index) => (
+                  <div key={`${entry}-${index}`} className="rounded-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 px-3 py-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                    Revision {index + 1}: {new Date(entry).toLocaleString()}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

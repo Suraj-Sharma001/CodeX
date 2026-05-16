@@ -5,7 +5,7 @@ import { analyticsService } from '@/services/analytics';
 import { DashboardStats } from '@/types';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { BookOpen, RotateCcw, Zap, Crown, AlertTriangle } from 'lucide-react';
+import { BookOpen, RotateCcw, AlertTriangle } from 'lucide-react';
 
 export default function AnalyticsPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -77,15 +77,15 @@ export default function AnalyticsPage() {
           color="purple"
         />
         <StatCard
-          title="Current Streak"
-          value={stats.currentStreak}
-          icon={<Zap className="w-5 h-5 sm:w-6 sm:h-6" />}
+          title="Pending Revisions"
+          value={stats.revisionsPending}
+          icon={<RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="amber"
         />
         <StatCard
-          title="Longest Streak"
-          value={stats.longestStreak}
-          icon={<Crown className="w-5 h-5 sm:w-6 sm:h-6" />}
+          title="Weak Areas"
+          value={stats.weakAreas.length}
+          icon={<AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6" />}
           color="emerald"
         />
       </div>

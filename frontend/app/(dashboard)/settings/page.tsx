@@ -196,7 +196,7 @@ export default function SettingsPage() {
       {user?.stats && (
         <div className="bg-white dark:bg-gray-900/50 rounded-lg shadow border border-gray-100 dark:border-gray-800 p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-semibold mb-4">Your Stats</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div>
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Problems</p>
               <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-gray-100">{user.stats.totalProblems}</p>
@@ -206,12 +206,8 @@ export default function SettingsPage() {
               <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-gray-100">{user.stats.totalRevisions}</p>
             </div>
             <div>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Current Streak</p>
-              <p className="text-lg sm:text-2xl font-bold text-red-600">{user.stats.currentStreak}🔥</p>
-            </div>
-            <div>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Longest Streak</p>
-              <p className="text-lg sm:text-2xl font-bold text-orange-600">{user.stats.longestStreak}⭐</p>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Revision reminders</p>
+              <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-gray-100">{user.preferences?.revisionReminders ? 'On' : 'Off'}</p>
             </div>
           </div>
         </div>
