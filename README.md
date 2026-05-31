@@ -1,4 +1,4 @@
-# CodeTrack AI - Full Stack Implementation
+# CodeX - Full Stack Implementation
 
 This is a complete production-ready implementation of CodeTrack AI, a personal coding journey tracker and revision system.
 
