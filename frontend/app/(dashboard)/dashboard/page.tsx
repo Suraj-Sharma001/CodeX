@@ -15,6 +15,14 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const completionRate = stats
+    ? Math.min(
+        stats.totalProblems > 0
+          ? (stats.totalRevisions / stats.totalProblems) * 100
+          : 0,
+        100
+      )
+    : 0;
 
   const fetchStats = async () => {
     try {
@@ -201,25 +209,17 @@ export default function DashboardPage() {
             </h3>
             <div className="space-y-4">
               <div>
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
                   <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Overall</span>
-                  <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
-                    {stats.totalProblems > 0
-                      ? Math.round((stats.totalRevisions / stats.totalProblems) * 100)
-                      : 0}
-                    %
+                  <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">
+                    {Math.round(completionRate)}%
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{
-                      width: `${stats.totalProblems > 0
-                        ? (stats.totalRevisions / stats.totalProblems) * 100
-                        : 0}%`,
-                    }}
+                    style={{ width: `${completionRate}%` }}
                   ></div>
-                </div>
               </div>
             </div>
           </div>
