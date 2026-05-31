@@ -106,11 +106,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       return;
     }
 
-    // Prevent concurrent hydration requests
-    if (state.isHydrating) {
-      return;
-    }
-
     set({ isHydrating: true, isInitialized: true });
     try {
       const user = await authService.getMe();

@@ -10,6 +10,8 @@ export interface CompleteRevisionInput {
 }
 
 class RevisionsService {
+  private readonly maxRevisionCycles = 2;
+
   async getPendingRevisions(
     userId: string,
     limit: number = 50
@@ -58,19 +60,26 @@ class RevisionsService {
     const next = nextSm2State(prev, quality);
     const nextRevisionDate = new Date();
     nextRevisionDate.setDate(nextRevisionDate.getDate() + next.intervalDays);
+    const shouldRemainScheduled = next.repetitions < this.maxRevisionCycles;
+
+    const update: Record<string, unknown> = {
+      lastReviewedAt: new Date(),
+      "revision.easeFactor": next.easeFactor,
+      "revision.intervalDays": next.intervalDays,
+      "revision.sm2Repetitions": next.repetitions,
+      "revision.canSolveAgain": canSolveAgain,
+      "revision.markedForRevision": shouldRemainScheduled,
+    };
+
+    if (shouldRemainScheduled) {
+      update["revision.nextRevisionDate"] = nextRevisionDate;
+    }
 
     const updated = await Problem.findOneAndUpdate(
       { _id: problemId, userId: new mongoose.Types.ObjectId(userId) },
       {
-        $set: {
-          lastReviewedAt: new Date(),
-          "revision.nextRevisionDate": nextRevisionDate,
-          "revision.easeFactor": next.easeFactor,
-          "revision.intervalDays": next.intervalDays,
-          "revision.sm2Repetitions": next.repetitions,
-          "revision.canSolveAgain": canSolveAgain,
-          "revision.markedForRevision": true,
-        },
+        $set: update,
+        ...(shouldRemainScheduled ? {} : { $unset: { "revision.nextRevisionDate": "" } }),
         $inc: {
           revisionCount: 1,
           "revision.revisionCount": 1,
