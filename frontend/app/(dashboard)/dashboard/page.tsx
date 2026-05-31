@@ -201,27 +201,33 @@ export default function DashboardPage() {
 
         {/* Progress Card */}
         <Card>
-          <div className="p-4 sm:p-6">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Completion Rate
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
-                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Overall</span>
-                  <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">
-                    {Math.round(completionRate)}%
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${completionRate}%` }}
-                  ></div>
-              </div>
-            </div>
-          </div>
-        </Card>
+  <div className="p-4 sm:p-6">
+    <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      Completion Rate
+    </h3>
+
+    <div className="space-y-4">
+      <div>
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
+          <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+            Overall
+          </span>
+
+          <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">
+            {Math.round(completionRate)}%
+          </span>
+        </div>
+
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+          <div
+            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            style={{ width: `${completionRate}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</Card>
       </div>
 
       {/* Weak Areas */}
