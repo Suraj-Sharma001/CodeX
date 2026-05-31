@@ -24,6 +24,7 @@ class ApiClient {
         const originalRequest = error.config as any;
         const requestUrl = String(originalRequest?.url || '');
         const isAuthEndpoint =
+          requestUrl.includes('/auth/me') ||
           requestUrl.includes('/auth/login') ||
           requestUrl.includes('/auth/register') ||
           requestUrl.includes('/auth/refresh') ||
