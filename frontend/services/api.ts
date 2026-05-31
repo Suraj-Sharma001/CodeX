@@ -22,9 +22,16 @@ class ApiClient {
       (response) => response,
       async (error: AxiosError) => {
         const originalRequest = error.config as any;
+        const requestUrl = String(originalRequest?.url || '');
+        const isAuthEndpoint =
+          requestUrl.includes('/auth/login') ||
+          requestUrl.includes('/auth/register') ||
+          requestUrl.includes('/auth/refresh') ||
+          requestUrl.includes('/auth/logout');
 
         if (
           error.response?.status === 401 &&
+          !isAuthEndpoint &&
           !originalRequest._retry
         ) {
           originalRequest._retry = true;
